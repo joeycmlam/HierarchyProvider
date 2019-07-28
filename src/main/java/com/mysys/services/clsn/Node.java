@@ -13,12 +13,20 @@ public class Node {
     private Node next;
 
     public Node(String name) {
+        this.level = 0;
         this.name = name;
         this.parent = null;
         this.next = null;
         this.values = new ArrayList<>();
     }
 
+
+
+
+    public void setParent(Node parent) {
+        this.parent = parent;
+        this.level = parent.level + 1;
+    }
 
     public void addChild(String stockCode, String country, BigDecimal mv) {
         if (country.equals(this.name)) {
@@ -28,7 +36,8 @@ public class Node {
             if (this.next == null) {
                 Node aNewNode = new Node(country);
                 aNewNode.addChild(stockCode, country, mv);
-                aNewNode.parent = this;
+                aNewNode.setParent(this);
+
                 this.next = aNewNode;
             } else {
                 this.next.addChild(stockCode, country, mv);
