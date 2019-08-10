@@ -8,12 +8,15 @@ public class HoldingTree {
 
     private Node root;
 
+
     public HoldingTree() {
         root = new Node("TotalPortfolio");
     }
 
-    public void addHolding(String country, String stockCode, BigDecimal mv) {
-        this.root.addChild(stockCode, country, mv);
+    public void addHolding(String country, String assetType, String stockCode, BigDecimal mv) {
+        Holding h = new Holding(stockCode, country, assetType, mv);
+//        this.root.addChild(h, Holding.EnumGroupField.COUNTRY);
+        this.root.addChild(h, Holding.EnumGroupField.ASSET_TYPE);
     }
 
     public void printTree() {
@@ -33,7 +36,7 @@ public class HoldingTree {
 
 
     public BigDecimal getMVByCountry(String country) {
-        List<Holding> lstHolding = this.root.findChildByCountry(country);
+        List<Holding> lstHolding = this.root.findChildByGroupLevel(country);
         BigDecimal rtnValue = BigDecimal.ZERO;
         if (lstHolding != null && lstHolding.size() > 0) {
 
@@ -42,9 +45,5 @@ public class HoldingTree {
 
         return rtnValue;
     }
-
-
-
-
 
 }

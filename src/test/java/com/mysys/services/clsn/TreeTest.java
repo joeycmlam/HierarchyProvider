@@ -20,15 +20,17 @@ public class TreeTest {
 
         this.started = true;
         // HK ==> 60
-        t.addHolding("HK", "0001.HK", new BigDecimal("10"));
-        t.addHolding("HK", "0003.HK", new BigDecimal("20"));
-        t.addHolding("HK", "0005.HK", new BigDecimal("30"));
+        t.addHolding("HK", "Equity", "0001.HK", new BigDecimal("10"));
+        t.addHolding("HK", "Equity", "0003.HK", new BigDecimal("20"));
+        t.addHolding("HK", "Equity","0005.HK", new BigDecimal("30"));
 
-        t.addHolding("JP", "SONY", new BigDecimal("50000"));
-        t.addHolding("UK", "BACY", new BigDecimal("50"));
+        t.addHolding("JP", "Equity","SONY", new BigDecimal("50000"));
+        t.addHolding("JP", "Futures","TOPIX", new BigDecimal("72300"));
+
+        t.addHolding("UK", "Equity","BACY", new BigDecimal("50"));
         // US ==> 10450
-        t.addHolding("US", "AMAZ", new BigDecimal("8900"));
-        t.addHolding("US", "AIA", new BigDecimal("1550"));
+        t.addHolding("US","Equity", "AMAZ", new BigDecimal("8900"));
+        t.addHolding("US", "Equity","AIA", new BigDecimal("1550"));
 
     }
 

@@ -34,21 +34,31 @@ public class Node {
     }
 
 
-    public void addChild(String stockCode, String country, BigDecimal mv) {
-        if (country.equals(this.name)) {
-            Holding aHolding = new Holding(stockCode, country, mv);
+    public void addChild(String stockCode, String country, String assetType, BigDecimal mv) {
+        Holding aHolding = new Holding(stockCode, country, assetType, mv);
+        this.addChild(aHolding);
+    }
+
+
+
+    public void addChild(Holding aHolding) {
+        this.addChild(aHolding, Holding.EnumGroupField.COUNTRY);
+    }
+
+    public void addChild(Holding aHolding, Holding.EnumGroupField groupBy) {
+        if (aHolding.getField(groupBy).equals(this.name)) {
             this.values.add(aHolding);
         } else {
-            Node aChild = this.children.stream().filter(c -> c.getName().equals(country)).findAny().orElse(null);
+            Node aChild = this.children.stream().filter(c -> c.getName().equals(aHolding.getField(groupBy))).findAny().orElse(null);
             if (aChild == null) {
-                aChild = new Node(country);
+                aChild = new Node(aHolding.getField(groupBy));
                 aChild.level = this.level + 1;
                 this.children.add(aChild);
-                aChild.addChild(stockCode, country, mv);
+                aChild.addChild(aHolding, groupBy);
                 aChild.setParent(this);
 
             } else {
-                aChild.addChild(stockCode, country, mv);
+                aChild.addChild(aHolding, groupBy);
             }
         }
     }
@@ -70,15 +80,14 @@ public class Node {
     }
 
 
-    public List<Holding> findChildByCountry(String country) {
+    public List<Holding> findChildByGroupLevel(String groupLevel) {
         List<Holding> lstValue = new ArrayList<Holding>();
 
-
-        if (country.equals(this.name)) {
+        if (groupLevel.equals(this.name)) {
             lstValue = this.values;
         } else {
             for (Node c : this.children) {
-                lstValue = c.findChildByCountry(country);
+                lstValue = c.findChildByGroupLevel(groupLevel);
                 if (lstValue.size() > 0) {
                     break;
                 }
@@ -120,7 +129,6 @@ public class Node {
 
         }
         if (this.children != null && this.children.size() > 0) {
-//            this.children.printTree();
             this.children.forEach(c -> c.printTree());
         }
     }
