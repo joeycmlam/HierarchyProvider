@@ -10,87 +10,99 @@ public class Node {
     private int level;
     private int seq;
     private String name;
-    private List<Holding> values;
     private Node parent;
-    private Node next;
+    private List<Holding> values;
+    private List<Node> children;
+
 
     public Node(String name) {
         this.level = 0;
         this.seq = 0;
         this.name = name;
         this.parent = null;
-        this.next = null;
         this.values = new ArrayList<>();
+        this.children = new ArrayList<>();
     }
 
+    public String getName() {
+        return name;
+    }
 
     public void setParent(Node parent) {
         this.parent = parent;
         this.level = parent.level + 1;
     }
 
+
     public void addChild(String stockCode, String country, BigDecimal mv) {
         if (country.equals(this.name)) {
             Holding aHolding = new Holding(stockCode, country, mv);
             this.values.add(aHolding);
         } else {
-            if (this.next == null) {
-                Node aNewNode = new Node(country);
-                aNewNode.addChild(stockCode, country, mv);
-                aNewNode.setParent(this);
+            Node aChild = this.children.stream().filter(c -> c.getName().equals(country)).findAny().orElse(null);
+            if (aChild == null) {
+                aChild = new Node(country);
+                aChild.level = this.level + 1;
+                this.children.add(aChild);
+                aChild.addChild(stockCode, country, mv);
+                aChild.setParent(this);
 
-                this.next = aNewNode;
             } else {
-                this.next.addChild(stockCode, country, mv);
+                aChild.addChild(stockCode, country, mv);
             }
         }
-
     }
-
-//    private Node findNode(String country) {
-//        if (this.next == null) {
-//            return null;
-//        } else {
-//            if (country.equals(this.next.name)) {
-//                return this.next;
-//            } else {
-//                return this.next.findNode(country);
-//            }
-//        }
-//    }
 
 
     public List<Holding> findChildByStockCode(String stockCode) {
-//        List<Holding> lstHolding = values.stream().filter(c -> stockCode.equals(c.getName()));
-        List<Holding> lstHolding = this.values.stream().filter(h -> h.getName().equals(stockCode)).collect(Collectors.toList());
-        if (lstHolding.size() == 0 && this.next != null) {
-            lstHolding = this.next.findChildByStockCode(stockCode);
+        List<Holding> lstHolding = this.values.stream().filter(h -> h.getStockCode().equals(stockCode)).collect(Collectors.toList());
+        if (lstHolding.size() == 0 && this.children.size() > 0) {
+            for (Node c : this.children) {
+                lstHolding = c.findChildByStockCode(stockCode);
+                if (lstHolding.size() > 0) {
+                    break;
+                }
+            }
+
         }
         return lstHolding;
 
     }
 
 
-
     public List<Holding> findChildByCountry(String country) {
-        if (country.equals(this.name)) {
-            return this.values;
-        } else {
-            if (this.next != null) {
-                return this.next.findChildByCountry(country);
-            } else {
-                return new ArrayList<Holding>();
-            }
-        }
+        List<Holding> lstValue = new ArrayList<Holding>();
 
+
+        if (country.equals(this.name)) {
+            lstValue = this.values;
+        } else {
+            for (Node c : this.children) {
+                lstValue = c.findChildByCountry(country);
+                if (lstValue.size() > 0) {
+                    break;
+                }
+            }
+
+        }
+        return lstValue;
     }
+
+
 
     public BigDecimal getMV() {
 
         BigDecimal totalMV =  this.values.stream().map(h -> h.getMv()).reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        if (this.next != null) {
-            totalMV = totalMV.add(this.next.getMV());
+        if (this.children.size() > 0) {
+
+
+            for (Node c : this.children) {
+                for (Holding h : c.values) {
+                    totalMV = totalMV.add(h.getMv());
+                }
+            }
+
         }
 
         return totalMV;
@@ -104,11 +116,12 @@ public class Node {
         System.out.println(String.format("Level %d: [%s] [%09.4f]", this.level, this.name, this.getMV()));
 
         if (this.values.size() > 0) {
-            this.values.forEach(holding -> System.out.println(String.format("holding: [%s] [%09.4f]", holding.getName(), holding.getMv())));
+            this.values.forEach(holding -> System.out.println(String.format("holding: [%s] [%09.4f]", holding.getStockCode(), holding.getMv())));
 
         }
-        if (this.next != null) {
-            this.next.printTree();
+        if (this.children != null && this.children.size() > 0) {
+//            this.children.printTree();
+            this.children.forEach(c -> c.printTree());
         }
     }
 

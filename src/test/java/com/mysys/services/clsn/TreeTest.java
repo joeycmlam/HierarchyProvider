@@ -19,11 +19,14 @@ public class TreeTest {
         }
 
         this.started = true;
+        // HK ==> 60
         t.addHolding("HK", "0001.HK", new BigDecimal("10"));
         t.addHolding("HK", "0003.HK", new BigDecimal("20"));
         t.addHolding("HK", "0005.HK", new BigDecimal("30"));
+
         t.addHolding("JP", "SONY", new BigDecimal("50000"));
         t.addHolding("UK", "BACY", new BigDecimal("50"));
+        // US ==> 10450
         t.addHolding("US", "AMAZ", new BigDecimal("8900"));
         t.addHolding("US", "AIA", new BigDecimal("1550"));
 
@@ -43,7 +46,6 @@ public class TreeTest {
         BigDecimal actValue = t.getMVByCountry("XX");
         BigDecimal expValue = new BigDecimal("0");
         Assert.assertEquals(expValue, actValue);
-
     }
 
 

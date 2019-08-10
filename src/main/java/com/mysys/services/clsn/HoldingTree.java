@@ -23,25 +23,28 @@ public class HoldingTree {
 
     public BigDecimal getMVByStockCode(String stockCode) {
         List<Holding> lstHolding = this.root.findChildByStockCode(stockCode);
-        if (lstHolding == null || lstHolding.size() == 0) {
-            return BigDecimal.ZERO;
-        } else {
-            return lstHolding.stream().parallel().map(h -> h.getMv()).reduce(BigDecimal.ZERO, BigDecimal::add);
+        BigDecimal rtnValue = BigDecimal.ZERO;
+        if (lstHolding != null && lstHolding.size() > 0) {
+
+            rtnValue = lstHolding.stream().parallel().map(h -> h.getMv()).reduce(BigDecimal.ZERO, BigDecimal::add);
         }
+        return rtnValue;
     }
 
 
     public BigDecimal getMVByCountry(String country) {
         List<Holding> lstHolding = this.root.findChildByCountry(country);
         BigDecimal rtnValue = BigDecimal.ZERO;
-        if (lstHolding.size() > 0) {
+        if (lstHolding != null && lstHolding.size() > 0) {
 
             rtnValue = lstHolding.stream().parallel().map(h -> h.getMv()).reduce(BigDecimal.ZERO, BigDecimal::add);
         }
 
         return rtnValue;
-
-
-
     }
+
+
+
+
+
 }

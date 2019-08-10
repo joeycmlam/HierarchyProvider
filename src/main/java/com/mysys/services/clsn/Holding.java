@@ -3,18 +3,18 @@ package com.mysys.services.clsn;
 import java.math.BigDecimal;
 
 public class Holding {
-    private String name;
+    private String stockCode;
     private BigDecimal mv;
     private String country;
 
     public Holding(String name, String country, BigDecimal mv) {
-        this.name = name;
+        this.stockCode = name;
         this.country = country;
         this.mv = mv;
     }
 
-    public String getName() {
-        return name;
+    public String getStockCode() {
+        return stockCode;
     }
 
     public BigDecimal getMv() {
