@@ -11,17 +11,20 @@ public class HoldingTree {
         root = new Node("TotalPortfolio");
     }
 
-
     public void addHolding(String country, String stockCode, BigDecimal mv) {
         this.root.addChild(stockCode, country, mv);
     }
 
     public BigDecimal findHoldingByStockCode(String stockCode) {
-        Child aChild = this.root.findChild(stockCode);
-        if (aChild == null) {
+        Holding aHolding = this.root.findChild(stockCode);
+        if (aHolding == null) {
             return BigDecimal.ZERO;
         } else {
-            return aChild.getMv();
+            return aHolding.getMv();
         }
+    }
+
+    public void printTree() {
+        this.root.printTree();
     }
 }

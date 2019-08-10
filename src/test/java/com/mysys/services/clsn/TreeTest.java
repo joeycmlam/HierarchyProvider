@@ -49,6 +49,10 @@ public class TreeTest {
     }
 
 
+    @Test
+    public void printAllTest() {
+        this.t.printTree();
+    }
 
 
 

@@ -2,12 +2,12 @@ package com.mysys.services.clsn;
 
 import java.math.BigDecimal;
 
-public class Child {
+public class Holding {
     private String name;
     private BigDecimal mv;
     private String country;
 
-    public Child(String name, String country, BigDecimal mv) {
+    public Holding(String name, String country, BigDecimal mv) {
         this.name = name;
         this.country = country;
         this.mv = mv;
