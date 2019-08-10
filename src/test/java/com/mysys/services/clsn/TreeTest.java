@@ -9,19 +9,48 @@ import java.math.BigDecimal;
 public class TreeTest {
 
     private static HoldingTree t = new HoldingTree();
+    public static boolean started = false;
+
 
     @Before
     public void setup() {
+        if (this.started) {
+            return;
+        }
+
+        this.started = true;
         t.addHolding("HK", "0001.HK", new BigDecimal("10"));
         t.addHolding("HK", "0003.HK", new BigDecimal("20"));
         t.addHolding("HK", "0005.HK", new BigDecimal("30"));
-        t.addHolding("JP", "SONY", new BigDecimal("50"));
+        t.addHolding("JP", "SONY", new BigDecimal("50000"));
+        t.addHolding("UK", "BACY", new BigDecimal("50"));
+        t.addHolding("US", "AMAZ", new BigDecimal("8900"));
+        t.addHolding("US", "AIA", new BigDecimal("1550"));
+
     }
+
+
+    @Test
+    public void findHoldingByCountryTest() {
+        BigDecimal actValue = t.getMVByCountry("HK");
+        BigDecimal expValue = new BigDecimal("60");
+        Assert.assertEquals(expValue, actValue);
+
+    }
+
+    @Test
+    public void findHoldingByCountryNotFoundTest() {
+        BigDecimal actValue = t.getMVByCountry("XX");
+        BigDecimal expValue = new BigDecimal("0");
+        Assert.assertEquals(expValue, actValue);
+
+    }
+
 
     @Test
     public void findHoldingByStockFoundTest() {
 
-        final BigDecimal actMv = t.findHoldingByStockCode("0001.HK");
+        final BigDecimal actMv = t.getMVByStockCode("0001.HK");
         final BigDecimal expMv = new BigDecimal("10");
         Assert.assertEquals(expMv, actMv);
     }
@@ -29,22 +58,22 @@ public class TreeTest {
     @Test
     public void findHoldingByStockFoundAnotherStockTest() {
 
-        final BigDecimal actMv = t.findHoldingByStockCode("0005.HK");
+        final BigDecimal actMv = t.getMVByStockCode("0005.HK");
         final BigDecimal expMv = new BigDecimal("30");
         Assert.assertEquals(expMv, actMv);
     }
 
     @Test
     public void findHoldingByStockNotFoundTest() {
-        final BigDecimal actMv = t.findHoldingByStockCode("2800.HK");
+        final BigDecimal actMv = t.getMVByStockCode("2800.HK");
         final BigDecimal expMv = new BigDecimal("0");
         Assert.assertEquals(expMv, actMv);
     }
 
     @Test
     public void findHoldingByStockFoundLevel2Test() {
-        final BigDecimal actMv = t.findHoldingByStockCode("SONY");
-        final BigDecimal expMv = new BigDecimal("50");
+        final BigDecimal actMv = t.getMVByStockCode("SONY");
+        final BigDecimal expMv = new BigDecimal("50000");
         Assert.assertEquals(expMv, actMv);
     }
 
@@ -53,7 +82,6 @@ public class TreeTest {
     public void printAllTest() {
         this.t.printTree();
     }
-
 
 
 }

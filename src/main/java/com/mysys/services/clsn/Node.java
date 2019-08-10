@@ -3,6 +3,7 @@ package com.mysys.services.clsn;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Node {
 
@@ -21,8 +22,6 @@ public class Node {
         this.next = null;
         this.values = new ArrayList<>();
     }
-
-
 
 
     public void setParent(Node parent) {
@@ -48,25 +47,41 @@ public class Node {
 
     }
 
-    private Node findNode(String country) {
-        if (this.next == null) {
-            return null;
-        } else {
-            if (country.equals(this.next.name)) {
-                return this.next;
-            } else {
-                return this.next.findNode(country);
-            }
+//    private Node findNode(String country) {
+//        if (this.next == null) {
+//            return null;
+//        } else {
+//            if (country.equals(this.next.name)) {
+//                return this.next;
+//            } else {
+//                return this.next.findNode(country);
+//            }
+//        }
+//    }
+
+
+    public List<Holding> findChildByStockCode(String stockCode) {
+//        List<Holding> lstHolding = values.stream().filter(c -> stockCode.equals(c.getName()));
+        List<Holding> lstHolding = this.values.stream().filter(h -> h.getName().equals(stockCode)).collect(Collectors.toList());
+        if (lstHolding.size() == 0 && this.next != null) {
+            lstHolding = this.next.findChildByStockCode(stockCode);
         }
+        return lstHolding;
+
     }
 
 
-    public Holding findChild(String stockCode) {
-        Holding aHolding = values.stream().filter(c -> stockCode.equals(c.getName())).findAny().orElse(null);
-        if (aHolding == null && this.next != null) {
-            aHolding = this.next.findChild(stockCode);
+
+    public List<Holding> findChildByCountry(String country) {
+        if (country.equals(this.name)) {
+            return this.values;
+        } else {
+            if (this.next != null) {
+                return this.next.findChildByCountry(country);
+            } else {
+                return new ArrayList<Holding>();
+            }
         }
-        return aHolding;
 
     }
 
@@ -83,6 +98,7 @@ public class Node {
 
     }
 
+
     public void printTree() {
 
         System.out.println(String.format("Level %d: [%s] [%09.4f]", this.level, this.name, this.getMV()));
@@ -95,5 +111,8 @@ public class Node {
             this.next.printTree();
         }
     }
+
+
+
 }
 
