@@ -121,6 +121,11 @@ public class Node {
 
         if (groupLevel.equals(this.name)) {
             lstValue = this.values;
+            //TODO: has limitation
+            for (Node c : this.children) {
+                lstValue.addAll(c.values);
+            }
+
         } else {
             for (Node c : this.children) {
                 lstValue = c.findChildByGroupLevel(groupLevel);

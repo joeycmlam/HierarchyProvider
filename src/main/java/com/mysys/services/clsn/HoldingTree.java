@@ -14,15 +14,18 @@ public class HoldingTree {
         root = new Node("TotalPortfolio");
     }
 
+
+    public void addHolding(String country, String assetType, String stockCode, BigDecimal mv, List<Holding.EnumGroupField> lstGroupBy) {
+        Holding h = new Holding(stockCode, country, assetType, mv);
+        this.root.addChild(h, lstGroupBy);
+
+    }
+
     public void addHolding(String country, String assetType, String stockCode, BigDecimal mv) {
         Holding h = new Holding(stockCode, country, assetType, mv);
-//        this.root.addChild(h, Holding.EnumGroupField.COUNTRY);
+        this.root.addChild(h, Holding.EnumGroupField.COUNTRY);
 //        this.root.addChild(h, Holding.EnumGroupField.ASSET_TYPE);
 
-        List<Holding.EnumGroupField> lstGroupBy = new ArrayList<>();
-        lstGroupBy.add(Holding.EnumGroupField.ASSET_TYPE);
-        lstGroupBy.add(Holding.EnumGroupField.COUNTRY);
-        this.root.addChild(h, lstGroupBy);
 
     }
 

@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TreeTest {
+public class TreeMultipleGroupAssetCountryByTest {
 
     private static HoldingTree t = new HoldingTree();
     public static boolean started = false;
@@ -20,27 +20,24 @@ public class TreeTest {
             return;
         }
 
-        this.started = true;
-        // HK ==> 60
-        t.addHolding("HK", "Equity", "0001.HK", new BigDecimal("10"));
-        t.addHolding("HK", "Equity", "0003.HK", new BigDecimal("20"));
-        t.addHolding("HK", "Equity","0005.HK", new BigDecimal("30"));
-
-        t.addHolding("JP", "Equity","SONY", new BigDecimal("50000"));
-        t.addHolding("JP", "Future","TOPIX", new BigDecimal("72300"));
-
-        t.addHolding("UK", "Equity","BACY", new BigDecimal("50"));
-        // US ==> 10450
-        t.addHolding("US","Equity", "AMAZ", new BigDecimal("8900"));
-        t.addHolding("US", "Equity","AIA", new BigDecimal("1550"));
-
-    }
-
-
-    public void setupGroupByCountryandAsset() {
         final List<Holding.EnumGroupField> lstGroupBy = new ArrayList<>();
         lstGroupBy.add(Holding.EnumGroupField.ASSET_TYPE);
         lstGroupBy.add(Holding.EnumGroupField.COUNTRY);
+
+
+        this.started = true;
+        // HK ==> 60
+        t.addHolding("HK", "Equity", "0001.HK", new BigDecimal("10"), lstGroupBy);
+        t.addHolding("HK", "Equity", "0003.HK", new BigDecimal("20"), lstGroupBy);
+        t.addHolding("HK", "Equity","0005.HK", new BigDecimal("30"), lstGroupBy);
+
+        t.addHolding("JP", "Equity","SONY", new BigDecimal("50000"), lstGroupBy);
+        t.addHolding("JP", "Future","TOPIX", new BigDecimal("72300"), lstGroupBy);
+
+        t.addHolding("UK", "Equity","BACY", new BigDecimal("50"), lstGroupBy);
+        // US ==> 10450
+        t.addHolding("US","Equity", "AMAZ", new BigDecimal("8900"), lstGroupBy);
+        t.addHolding("US", "Equity","AIA", new BigDecimal("1550"), lstGroupBy);
 
     }
 
@@ -49,6 +46,14 @@ public class TreeTest {
     public void findHoldingByCountryTest() {
         BigDecimal actValue = t.getMVByCountry("HK");
         BigDecimal expValue = new BigDecimal("60");
+        Assert.assertEquals(expValue, actValue);
+
+    }
+
+    @Test
+    public void findHoldingByCountryJapanTest() {
+        BigDecimal actValue = t.getMVByCountry("JP");
+        BigDecimal expValue = new BigDecimal("122300");
         Assert.assertEquals(expValue, actValue);
 
     }
