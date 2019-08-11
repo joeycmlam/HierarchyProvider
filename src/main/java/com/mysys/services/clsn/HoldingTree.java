@@ -2,6 +2,7 @@ package com.mysys.services.clsn;
 
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 public class HoldingTree {
@@ -16,7 +17,13 @@ public class HoldingTree {
     public void addHolding(String country, String assetType, String stockCode, BigDecimal mv) {
         Holding h = new Holding(stockCode, country, assetType, mv);
 //        this.root.addChild(h, Holding.EnumGroupField.COUNTRY);
-        this.root.addChild(h, Holding.EnumGroupField.ASSET_TYPE);
+//        this.root.addChild(h, Holding.EnumGroupField.ASSET_TYPE);
+
+        List<Holding.EnumGroupField> lstGroupBy = new ArrayList<>();
+        lstGroupBy.add(Holding.EnumGroupField.ASSET_TYPE);
+        lstGroupBy.add(Holding.EnumGroupField.COUNTRY);
+        this.root.addHolding(h, lstGroupBy);
+
     }
 
     public void printTree() {

@@ -25,7 +25,7 @@ public class TreeTest {
         t.addHolding("HK", "Equity","0005.HK", new BigDecimal("30"));
 
         t.addHolding("JP", "Equity","SONY", new BigDecimal("50000"));
-        t.addHolding("JP", "Futures","TOPIX", new BigDecimal("72300"));
+        t.addHolding("JP", "Future","TOPIX", new BigDecimal("72300"));
 
         t.addHolding("UK", "Equity","BACY", new BigDecimal("50"));
         // US ==> 10450

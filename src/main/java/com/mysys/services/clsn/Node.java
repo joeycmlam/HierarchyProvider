@@ -33,34 +33,79 @@ public class Node {
         this.level = parent.level + 1;
     }
 
-
-    public void addChild(String stockCode, String country, String assetType, BigDecimal mv) {
-        Holding aHolding = new Holding(stockCode, country, assetType, mv);
-        this.addChild(aHolding);
-    }
-
-
-
-    public void addChild(Holding aHolding) {
-        this.addChild(aHolding, Holding.EnumGroupField.COUNTRY);
-    }
-
-    public void addChild(Holding aHolding, Holding.EnumGroupField groupBy) {
-        if (aHolding.getField(groupBy).equals(this.name)) {
-            this.values.add(aHolding);
-        } else {
-            Node aChild = this.children.stream().filter(c -> c.getName().equals(aHolding.getField(groupBy))).findAny().orElse(null);
-            if (aChild == null) {
-                aChild = new Node(aHolding.getField(groupBy));
-                aChild.level = this.level + 1;
-                this.children.add(aChild);
-                aChild.addChild(aHolding, groupBy);
-                aChild.setParent(this);
-
-            } else {
-                aChild.addChild(aHolding, groupBy);
+    private Node findNode(String dataPoint) {
+        Node aNode = null;
+        if (!this.name.equals(dataPoint)) {
+            for (Node c : this.children) {
+                if (c.getName().equals(dataPoint)) {
+                    aNode = c;
+                    break;
+                } else {
+                    c.findNode(dataPoint);
+                }
             }
         }
+        return aNode;
+    }
+
+//    public void addChild(String stockCode, String country, String assetType, BigDecimal mv) {
+//        Holding aHolding = new Holding(stockCode, country, assetType, mv);
+//        this.addChild(aHolding, Holding.EnumGroupField.COUNTRY);
+//    }
+
+    public Node addHolding(Holding aHolding, List<Holding.EnumGroupField> lstGroupBy) {
+        String dataPoint;
+        Node aParent = this;
+        Node aNode = null;
+        for (Holding.EnumGroupField groupBy : lstGroupBy) {
+            dataPoint = aHolding.getField(groupBy);
+            aNode = this.addNode(aHolding, groupBy, aParent);
+            aParent = aNode;
+            if (aNode.level == lstGroupBy.size()) {
+                aNode = aNode.addChild(aHolding, groupBy);
+            }
+
+        }
+        return aNode;
+    }
+
+
+    public Node addChild(Holding aHolding, Holding.EnumGroupField groupBy) {
+        Node aNode = this.addChild(aHolding, groupBy, this);
+        return aNode;
+    }
+
+    public Node addChild(Holding aHolding, Holding.EnumGroupField groupBy, Node aParent) {
+        Node aChild;
+        if (aHolding.getField(groupBy).equals(aParent.name)) {
+            aParent.values.add(aHolding);
+            aChild = this;
+        } else {
+//            aChild = this.children.stream().filter(c -> c.getName().equals(aHolding.getField(groupBy))).findAny().orElse(null);
+            aChild = this.findNode(aHolding.getField(groupBy));
+            if (aChild == null) {
+                aChild = this.addNode(aHolding, groupBy, aParent);
+
+            }
+
+            aChild.addChild(aHolding, groupBy, aParent);
+            aChild.setParent(aParent);
+        }
+        return aChild;
+    }
+
+    private Node addNode(Holding aHolding, Holding.EnumGroupField groupBy, Node parent)
+    {
+
+        Node aNode = parent.findNode(aHolding.getField(groupBy));
+        if (aNode == null) {
+            aNode = new Node(aHolding.getField(groupBy));
+            aNode.level = parent.level + 1;
+            parent.children.add(aNode);
+            aNode.setParent(parent);
+        }
+
+        return aNode;
     }
 
 
@@ -122,10 +167,15 @@ public class Node {
 
     public void printTree() {
 
-        System.out.println(String.format("Level %d: [%s] [%09.4f]", this.level, this.name, this.getMV()));
+        if (this.parent == null) {
+            System.out.println(String.format("Level %d: [%s] [%09.4f]", this.level, this.name, this.getMV()));
+        } else {
+            System.out.println(String.format("Level %d: [%s] [%s] [%09.4f]", this.level, this.parent.getName(), this.name, this.getMV()));
+        }
+
 
         if (this.values.size() > 0) {
-            this.values.forEach(holding -> System.out.println(String.format("holding: [%s] [%09.4f]", holding.getStockCode(), holding.getMv())));
+            this.values.forEach(holding -> System.out.println(String.format("holding:[%s] [%09.4f]", holding.getStockCode(), holding.getMv())));
 
         }
         if (this.children != null && this.children.size() > 0) {
