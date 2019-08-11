@@ -48,10 +48,6 @@ public class Node {
         return aNode;
     }
 
-//    public void addChild(String stockCode, String country, String assetType, BigDecimal mv) {
-//        Holding aHolding = new Holding(stockCode, country, assetType, mv);
-//        this.addChild(aHolding, Holding.EnumGroupField.COUNTRY);
-//    }
 
     public Node addChild(Holding aHolding, List<Holding.EnumGroupField> lstGroupBy) {
         String dataPoint;
@@ -60,10 +56,11 @@ public class Node {
         for (Holding.EnumGroupField groupBy : lstGroupBy) {
             dataPoint = aHolding.getField(groupBy);
             aNode = this.addNode(aHolding, groupBy, aParent);
-            aParent = aNode;
             if (aNode.level == lstGroupBy.size()) {
                 aNode = aNode.addChild(aHolding, groupBy);
             }
+
+            aParent = aNode; //prepare for next groupBy
 
         }
         return aNode;
@@ -77,17 +74,11 @@ public class Node {
 
     public Node addChild(Holding aHolding, Holding.EnumGroupField groupBy, Node aParent) {
         Node aChild;
-        if (aHolding.getField(groupBy).equals(aParent.name)) {
-            aParent.values.add(aHolding);
+        if (aHolding.getField(groupBy).equals(this.name)) {
+            this.values.add(aHolding);
             aChild = this;
         } else {
-//            aChild = this.children.stream().filter(c -> c.getName().equals(aHolding.getField(groupBy))).findAny().orElse(null);
-            aChild = this.findNode(aHolding.getField(groupBy));
-            if (aChild == null) {
-                aChild = this.addNode(aHolding, groupBy, aParent);
-
-            }
-
+            aChild = this.addNode(aHolding, groupBy, aParent);
             aChild.addChild(aHolding, groupBy, aParent);
             aChild.setParent(aParent);
         }
