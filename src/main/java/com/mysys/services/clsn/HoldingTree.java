@@ -22,7 +22,7 @@ public class HoldingTree {
         List<Holding.EnumGroupField> lstGroupBy = new ArrayList<>();
         lstGroupBy.add(Holding.EnumGroupField.ASSET_TYPE);
         lstGroupBy.add(Holding.EnumGroupField.COUNTRY);
-        this.root.addHolding(h, lstGroupBy);
+        this.root.addChild(h, lstGroupBy);
 
     }
 

@@ -53,7 +53,7 @@ public class Node {
 //        this.addChild(aHolding, Holding.EnumGroupField.COUNTRY);
 //    }
 
-    public Node addHolding(Holding aHolding, List<Holding.EnumGroupField> lstGroupBy) {
+    public Node addChild(Holding aHolding, List<Holding.EnumGroupField> lstGroupBy) {
         String dataPoint;
         Node aParent = this;
         Node aNode = null;
