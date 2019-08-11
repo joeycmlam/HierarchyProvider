@@ -85,8 +85,7 @@ public class Node {
         return aChild;
     }
 
-    private Node addNode(Holding aHolding, Holding.EnumGroupField groupBy, Node parent)
-    {
+    private Node addNode(Holding aHolding, Holding.EnumGroupField groupBy, Node parent) {
 
         Node aNode = parent.findNode(aHolding.getField(groupBy));
         if (aNode == null) {
@@ -121,7 +120,6 @@ public class Node {
 
         if (groupLevel.equals(this.name)) {
             lstValue = this.values;
-            //TODO: has limitation
             for (Node c : this.children) {
                 lstValue.addAll(c.values);
             }
@@ -133,16 +131,16 @@ public class Node {
                     break;
                 }
             }
-
         }
+
+
         return lstValue;
     }
 
 
-
     public BigDecimal getMV() {
 
-        BigDecimal totalMV =  this.values.stream().map(h -> h.getMv()).reduce(BigDecimal.ZERO, BigDecimal::add);
+        BigDecimal totalMV = this.values.stream().map(h -> h.getMv()).reduce(BigDecimal.ZERO, BigDecimal::add);
 
         if (this.children.size() > 0) {
 
@@ -178,7 +176,6 @@ public class Node {
             this.children.forEach(c -> c.printTree());
         }
     }
-
 
 
 }

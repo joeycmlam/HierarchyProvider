@@ -11,7 +11,8 @@ public class Holding {
 
     public enum EnumGroupField {
         COUNTRY,
-        ASSET_TYPE
+        ASSET_TYPE,
+        REGION
     }
 
     public Holding(String name,  String country, String assetType, BigDecimal mv) {
@@ -19,6 +20,19 @@ public class Holding {
         this.country = country;
         this.assetType = assetType;
         this.mv = mv;
+    }
+
+    public String getRegion() {
+        String region=this.country;
+        switch (this.country) {
+            case "HK"   : region = "Asia"; break;
+            case "JP"   : region = "Asia"; break;
+            case "KR"   : region = "Asia"; break;
+            case "US"   : region = "US"; break;
+            case "Itay" : region = "Europe"; break;
+            case "UK"   : region = "Europe"; break;
+        }
+        return region;
     }
 
     public String getStockCode() {
@@ -47,6 +61,8 @@ public class Holding {
                 return this.getCountry();
             case ASSET_TYPE:
                 return this.getAssetType();
+            case REGION:
+                return this.getRegion();
             default:
                 return "";
         }
