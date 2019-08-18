@@ -1,6 +1,7 @@
 package com.mysys.services.clsn;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 
 public class Holding {
@@ -15,7 +16,26 @@ public class Holding {
         REGION
     }
 
-    public Holding(String name,  String country, String assetType, BigDecimal mv) {
+    public Holding(String stockCode, BigDecimal mv) {
+        this.stockCode = stockCode;
+        this.mv = mv;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.stockCode);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this != obj) return false;
+        if (obj == null) return false;
+        if (this.getClass() != obj.getClass()) return false;
+        Holding h = (Holding) obj;
+        return (this.stockCode.equals(h.stockCode));
+    }
+
+    public Holding(String name, String country, String assetType, BigDecimal mv) {
         this.stockCode = name;
         this.country = country;
         this.assetType = assetType;
@@ -23,14 +43,26 @@ public class Holding {
     }
 
     public String getRegion() {
-        String region=this.country;
+        String region = this.country;
         switch (this.country) {
-            case "HK"   : region = "Asia"; break;
-            case "JP"   : region = "Asia"; break;
-            case "KR"   : region = "Asia"; break;
-            case "US"   : region = "US"; break;
-            case "Itay" : region = "Europe"; break;
-            case "UK"   : region = "Europe"; break;
+            case "HK":
+                region = "Asia";
+                break;
+            case "JP":
+                region = "Asia";
+                break;
+            case "KR":
+                region = "Asia";
+                break;
+            case "US":
+                region = "US";
+                break;
+            case "Itay":
+                region = "Europe";
+                break;
+            case "UK":
+                region = "Europe";
+                break;
         }
         return region;
     }
@@ -40,7 +72,21 @@ public class Holding {
     }
 
     public String getAssetType() {
-        return assetType;
+        String rtnValue = this.assetType;
+        if (this.assetType == null) {
+            switch (this.stockCode) {
+                case "0005.HK":
+                case "0002.HK":
+                    rtnValue = "Equity";
+                    break;
+                case "HSI1":
+                case "TOPX1":
+                    rtnValue = "Future";
+                    break;
+            }
+        }
+
+        return rtnValue;
     }
 
     public BigDecimal getMv() {
@@ -52,7 +98,22 @@ public class Holding {
     }
 
     public String getCountry() {
-        return country;
+        String rtnValue = this.country;
+
+        if (rtnValue == null) {
+
+            switch (this.stockCode) {
+                case "0005.HK":
+                case "0002.HK":
+                case "HSI1":
+                    rtnValue = "HK";
+                    break;
+                case "TOPX1":
+                    rtnValue = "JP";
+                    break;
+            }
+        }
+        return rtnValue;
     }
 
     public String getField(EnumGroupField field) {
@@ -66,6 +127,18 @@ public class Holding {
             default:
                 return "";
         }
+    }
+
+    @Override
+    public String toString() {
+
+        final StringBuilder rtnValue = new StringBuilder();
+        rtnValue.append("holding: ");
+        rtnValue.append("[").append(this.stockCode).append("] ");
+        rtnValue.append("MV [").append(this.getMv()).append("]");
+
+
+        return rtnValue.toString();
     }
 }
 

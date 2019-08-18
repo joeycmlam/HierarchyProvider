@@ -2,16 +2,15 @@ package com.mysys.services.clsn;
 
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 public class HoldingTree {
 
-    private Node root;
+    private NodeHolding root;
 
 
     public HoldingTree() {
-        root = new Node("TotalPortfolio");
+        root = new NodeHolding("TotalPortfolio");
     }
 
 
