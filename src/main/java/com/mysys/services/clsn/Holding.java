@@ -77,6 +77,7 @@ public class Holding {
             switch (this.stockCode) {
                 case "0005.HK":
                 case "0002.HK":
+                case "SONY.JP":
                     rtnValue = "Equity";
                     break;
                 case "HSI1":
@@ -109,6 +110,7 @@ public class Holding {
                     rtnValue = "HK";
                     break;
                 case "TOPX1":
+                case "SONY.JP":
                     rtnValue = "JP";
                     break;
             }

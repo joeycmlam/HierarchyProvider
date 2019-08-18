@@ -15,8 +15,11 @@ public class HoldingsTreeTest {
     @Before
     public void setUp() throws Exception {
         this.holdingsTree.addHolding(new Holding("0005.HK",new BigDecimal("400")));
+        this.holdingsTree.addHolding(new Holding("TOPX1",new BigDecimal("88000")));
         this.holdingsTree.addHolding(new Holding("0002.HK",new BigDecimal("5000")));
         this.holdingsTree.addHolding(new Holding("HSI1",new BigDecimal("3000")));
+        this.holdingsTree.addHolding(new Holding("SONY.JP",new BigDecimal("2000")));
+
     }
 
     @Ignore
