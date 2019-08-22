@@ -10,7 +10,7 @@ import java.util.function.Predicate;
 
 @Component("HoldingsProvider")
 public class Holdings implements iHoldings  {
-    private List<Holding> lstHolding = new ArrayList<>();
+    final private List<Holding> lstHolding = new ArrayList<>();
 
 
     @Override

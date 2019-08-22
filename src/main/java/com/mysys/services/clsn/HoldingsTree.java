@@ -35,7 +35,7 @@ public class HoldingsTree {
 
 
             aNode.getHoldings().forEach(h ->
-                    System.out.println(String.format("%s holding: %s",
+                    System.out.println(String.format("%s%s",
                             StringUtils.repeat(' ', intLevel+1),
                             this.holdings.getHolding(this.holdings.filterByHashCode(h.hashCode())))));
 

@@ -22,9 +22,8 @@ public class HoldingTree {
 
     public void addHolding(String country, String assetType, String stockCode, BigDecimal mv) {
         Holding h = new Holding(stockCode, country, assetType, mv);
+        this.root.addChild(h, Holding.EnumGroupField.ASSET_TYPE);
         this.root.addChild(h, Holding.EnumGroupField.COUNTRY);
-//        this.root.addChild(h, Holding.EnumGroupField.ASSET_TYPE);
-
 
     }
 

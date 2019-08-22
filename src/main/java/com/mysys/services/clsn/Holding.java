@@ -5,6 +5,7 @@ import java.util.Objects;
 
 
 public class Holding {
+    private iImnt imnt;
     private String stockCode;
     private BigDecimal mv;
     private String country;
@@ -32,7 +33,7 @@ public class Holding {
         if (obj == null) return false;
         if (this.getClass() != obj.getClass()) return false;
         Holding h = (Holding) obj;
-        return (this.stockCode.equals(h.stockCode));
+        return this.stockCode.equalsIgnoreCase((String) obj);
     }
 
     public Holding(String name, String country, String assetType, BigDecimal mv) {

@@ -1,5 +1,7 @@
 package com.mysys.services.clsn;
 
+import java.util.Objects;
+
 public class Instrument implements iImnt {
     private String stockCode;
     private String country;
@@ -24,5 +26,19 @@ public class Instrument implements iImnt {
     @Override
     public String getAssetType() {
         return this.assetType;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(stockCode);
+
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this != obj) return false;
+        if (obj == null) return false;
+        if (this.getClass() != obj.getClass()) return false;
+        return this.stockCode.equalsIgnoreCase((String) obj);
     }
 }
