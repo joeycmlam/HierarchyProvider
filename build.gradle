@@ -1,5 +1,8 @@
 plugins {
+    id 'org.springframework.boot' version '2.1.7.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
     id 'java'
+
 }
 
 group 'com.mysys.service.clsn'
@@ -11,9 +14,21 @@ repositories {
     mavenCentral()
 }
 
+ext {
+    set('springCloudVersion', "Greenwich.SR2")
+}
+
 dependencies {
-//    testCompile group: 'junit', name: 'junit', version: '4.12'
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.cloud:spring-cloud-starter-aws'
+    implementation 'org.apache.commons:commons-lang3'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation("junit:junit:4.12")
-//    testImplementation("org.junit.jupiter:junit-jupiter-api:5.5.1")
-//    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.5.1")
+
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
 }

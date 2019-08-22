@@ -42,9 +42,11 @@ public class Holding {
         this.mv = mv;
     }
 
+
+
     public String getRegion() {
-        String region = this.country;
-        switch (this.country) {
+        String region = "UNKNOWN";
+        switch (this.getCountry()) {
             case "HK":
                 region = "Asia";
                 break;
@@ -78,12 +80,17 @@ public class Holding {
                 case "0005.HK":
                 case "0002.HK":
                 case "SONY.JP":
+                case "FB.US":
+                case "TTO.JP":
+                case "AMZN.US":
+                case "BARC.LN":
                     rtnValue = "Equity";
                     break;
                 case "HSI1":
                 case "TOPX1":
                     rtnValue = "Future";
                     break;
+
             }
         }
 
@@ -111,7 +118,15 @@ public class Holding {
                     break;
                 case "TOPX1":
                 case "SONY.JP":
+                case "TTO.JP":
                     rtnValue = "JP";
+                    break;
+                case "FB.US":
+                case "AMZN.US":
+                    rtnValue = "US";
+                    break;
+                case "BARC.LN":
+                    rtnValue= "UK";
                     break;
             }
         }

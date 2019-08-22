@@ -1,24 +1,42 @@
 package com.mysys.services.clsn;
 
-import java.math.BigDecimal;
-import java.util.*;
+import org.springframework.stereotype.Component;
 
-public class Holdings  {
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Predicate;
+
+
+@Component("HoldingsProvider")
+public class Holdings implements iHoldings  {
     private List<Holding> lstHolding = new ArrayList<>();
 
-    public void add(Holding aHolding) {
-        this.lstHolding.add(aHolding);
+
+    @Override
+    public void addHolding(Holding holding) {
+        this.lstHolding.add(holding);
     }
 
 
-    public Holding getHolding(Integer holdingKey) {
-        Holding h = lstHolding.stream().filter(holding -> holding.hashCode() == holdingKey).findAny().orElse(null);
-        return h;
+
+    @Override
+    public Predicate<Holding> filterByHashCode(Integer hashCode) {
+        return p -> p.hashCode() == hashCode;
     }
 
-    public Holding getHoldingByStockCode(String stockCode) {
-        return this.lstHolding.get(Objects.hash(stockCode));
+    @Override
+    public Predicate<Holding> filterByStockCode(String stockCode) {
+        return p -> p.getStockCode().equals(stockCode);
     }
+
+
+    @Override
+    public Holding getHolding(Predicate<Holding> predicate) {
+        return lstHolding.stream().filter(predicate)
+                .findAny().orElse(null);
+    }
+
 
     public BigDecimal getMVByStockCode(String stockCode) {
         return this.lstHolding.stream().filter(h -> h.getStockCode().equals(stockCode))
@@ -26,4 +44,11 @@ public class Holdings  {
 
     }
 
+    @Override
+    public String toString() {
+        final StringBuilder rtnValue = new StringBuilder();
+        rtnValue.append("holding count = [").append(lstHolding.size()).append("]");
+        return rtnValue.toString();
+
+    }
 }

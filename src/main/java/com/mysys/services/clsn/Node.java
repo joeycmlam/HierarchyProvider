@@ -24,6 +24,10 @@ public class Node {
         return holdings;
     }
 
+    public int getLevel() {
+        return level;
+    }
+
     public String getValue() {
         return value;
     }
