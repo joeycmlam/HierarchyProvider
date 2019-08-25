@@ -26,25 +26,31 @@ public class HoldingsTree {
 
 
     public void printTree() {
+        System.out.println(this.buildTree());
+
+    }
+
+    public String buildTree() {
+        final StringBuilder buff = new StringBuilder();
         Node aNode = this.root;
 
         while (aNode != null) {
             final Integer intLevel = aNode.getLevel();
-            System.out.print(StringUtils.repeat(' ', intLevel));
-            System.out.println(aNode.toString());
+            buff.append(StringUtils.repeat(' ', intLevel));
+            buff.append(aNode.toString()).append("\n");
 
 
             aNode.getHoldings().forEach(h ->
-                    System.out.println(String.format("%s%s",
-                            StringUtils.repeat(' ', intLevel+1),
-                            this.holdings.getHolding(this.holdings.filterByHashCode(h.hashCode())))));
+                    buff.append(
+                            StringUtils.repeat(' ', intLevel+1)
+                    ).append(
+                            this.holdings.getHolding(this.holdings.filterByHashCode(h.hashCode()))
+                    ).append("\n")
+            );
 
             aNode = aNode.traverseInOrder();
-
-
-
         }
+        return buff.toString();
     }
-
 
 }
