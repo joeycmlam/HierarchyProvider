@@ -1,6 +1,5 @@
 package com.mysys.services.clsn;
 
-import java.util.List;
 import java.util.function.Predicate;
 
 public interface iHoldings {

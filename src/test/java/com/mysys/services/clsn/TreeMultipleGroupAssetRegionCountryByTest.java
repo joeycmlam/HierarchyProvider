@@ -2,6 +2,7 @@ package com.mysys.services.clsn;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.math.BigDecimal;
@@ -46,7 +47,7 @@ public class TreeMultipleGroupAssetRegionCountryByTest {
     }
 
 
-    @Test
+    @Ignore
     public void findHoldingByRegionTest() {
         BigDecimal actValue = t.getMVByCountry("Asia");
         BigDecimal expValue = new BigDecimal("122360");
@@ -62,7 +63,7 @@ public class TreeMultipleGroupAssetRegionCountryByTest {
 
     }
 
-    @Test
+    @Ignore
     public void findHoldingByCountryJapanTest() {
         BigDecimal actValue = t.getMVByCountry("JP");
         BigDecimal expValue = new BigDecimal("122300");

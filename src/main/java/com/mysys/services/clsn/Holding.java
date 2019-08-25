@@ -5,7 +5,6 @@ import java.util.Objects;
 
 
 public class Holding {
-    private iImnt imnt;
     private String stockCode;
     private BigDecimal mv;
     private String country;
