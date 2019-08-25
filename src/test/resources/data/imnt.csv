@@ -1,0 +1,10 @@
+stockCode,assetType,country,sector
+0005.HK,Equity,HK,Bank
+TOPX1,Future,JP,Unknown
+0002.HK,Equity,HK,Utility
+HSI1,Future,HK,Unknown
+SONY.JP,Equity,JP,Technology
+TTO.JP,Equity,JP,Unknown
+AMZN.US,Equity,US,Technology
+BARC.LN,Equity,UK,Bank
+FB.US,Equity,US,Technology

@@ -11,7 +11,7 @@ import java.util.function.Predicate;
 
 
 @Component("HoldingsProvider")
-public class Holdings implements iHoldings  {
+public class Holdings implements iHoldings {
     final private List<Holding> lstHolding = new ArrayList<>();
 
 
