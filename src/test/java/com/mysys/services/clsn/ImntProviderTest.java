@@ -11,13 +11,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import static org.junit.Assert.*;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+//@RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {AppConfig.class})
 public class ImntProviderTest {
 
 
     @Autowired
-    private ImntProvider imnt;
+    final private ImntProvider imnt = new ImntProvider();
 
     @Before
     public void setUp() throws Exception {

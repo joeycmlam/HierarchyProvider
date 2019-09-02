@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class HoldingsTree {
 
     @Autowired
-    private iHoldings holdings;
+    private Holdings holdings = new Holdings();
 
     final private Node root = new Node("Total Portfolio");
 
@@ -35,7 +35,7 @@ public class HoldingsTree {
         Node aNode = this.root;
 
         while (aNode != null) {
-            final Integer intLevel = aNode.getLevel();
+            final int intLevel = aNode.getLevel();
             buff.append(StringUtils.repeat(' ', intLevel));
             buff.append(aNode.toString()).append("\n");
 

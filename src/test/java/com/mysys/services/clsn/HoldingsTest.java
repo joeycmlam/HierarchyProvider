@@ -2,6 +2,7 @@ package com.mysys.services.clsn;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +13,12 @@ import java.math.BigDecimal;
 
 import static org.hamcrest.core.IsInstanceOf.instanceOf;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+//@RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {AppConfig.class})
 public class HoldingsTest {
 
     @Autowired
-    public iHoldings holdings;
+    private iHoldings holdings = new Holdings();
 
     @Before
     public void Setup() {

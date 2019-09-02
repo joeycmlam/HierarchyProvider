@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 
-public class Holding {
+public class Holding implements Cloneable {
     private String stockCode;
     private BigDecimal mv;
     private String country;
@@ -106,6 +106,8 @@ public class Holding {
     }
 
     public String getCountry() {
+
+
         String rtnValue = this.country;
 
         if (rtnValue == null) {
@@ -156,6 +158,11 @@ public class Holding {
 
 
         return rtnValue.toString();
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }
 

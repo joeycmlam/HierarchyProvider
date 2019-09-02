@@ -6,10 +6,3 @@ spring:
   application:
     name: HierarchyProvider
 
-
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: ${EUREKA_URI:http://localhost:9091/eureka/}
-  instance:
-    preferIpAddress: true

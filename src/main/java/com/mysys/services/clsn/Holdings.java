@@ -17,7 +17,14 @@ public class Holdings implements iHoldings {
 
     @Override
     public void addHolding(Holding holding) {
-        this.lstHolding.add(holding);
+        try {
+            Holding aHolding = (Holding) holding.clone();
+            this.lstHolding.add(aHolding);
+
+        } catch (Exception e) {
+
+        }
+
     }
 
 
